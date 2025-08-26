@@ -546,7 +546,7 @@ export default function App() {
           baseGraph.nodes[0]?.id ??
           "0"
       );
-  }, [baseGraph]);
+  }, [baseGraph, endId, startId]);
 
   const dijkSteps = useMemo(
     () => runDijkstraSteps(baseGraph, startId),
@@ -915,6 +915,8 @@ export default function App() {
         endId,
         pathNodes: pathA.nodes,
       }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [layouted.nodes, snapA, startId, endId, pathA.nodes]
   );
   const leftEdges = useMemo(
@@ -930,6 +932,8 @@ export default function App() {
         endId,
         pathNodes: pathB.nodes,
       }),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [layouted.nodes, snapB, startId, endId, pathB.nodes]
   );
   const rightEdges = useMemo(
