@@ -297,7 +297,7 @@ function runPaperSteps(graph: Graph, src: NodeId): PaperSnapshot[] {
     const pq: PQItem[] = [];
     const localExtracted: NodeId[] = [];
     const U = new Set<NodeId>();
-    for (const p of P) pq.push({ id: p, d: dist[p] });
+    for (const p of Array.from(P)) pq.push({ id: p, d: dist[p] });
 
     // eslint-disable-next-line no-loop-func
     const relaxEdge = (u: NodeId, v: NodeId, w: number) => {
@@ -559,7 +559,7 @@ export default function App() {
 
   const [iA, setIA] = useState(0);
   const [iB, setIB] = useState(0);
-  const [locked, setLocked] = useState(true);
+  const [locked, setLocked] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [speedMs, setSpeedMs] = useState(600);
 
@@ -765,10 +765,10 @@ export default function App() {
         </div>
         <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
           <div>
-            <b>Settled:</b> {[...snap.settled].join(", ") || "—"}
+            <b>Settled:</b> {[...Array.from(snap.settled)].join(", ") || "—"}
           </div>
           <div>
-            <b>Frontier:</b> {[...snap.frontier].join(", ") || "—"}
+            <b>Frontier:</b> {[...Array.from(snap.frontier)].join(", ") || "—"}
           </div>
           {isPaper && (
             <div
@@ -779,19 +779,17 @@ export default function App() {
               }}
             >
               <div>
-                <b>S:</b> {[...(snap as PaperSnapshot).S].join(", ") || "—"}
+                <b>S:</b>{" "}
+                {[...Array.from((snap as PaperSnapshot).S)].join(", ") || "—"}
               </div>
               <div>
                 <b>P:</b>{" "}
-                {[...((snap as PaperSnapshot).P ?? new Set()).values()].join(
-                  ", "
-                ) || "—"}
+                {Array.from((snap as PaperSnapshot).P ?? []).join(", ") || "—"}
               </div>
               <div>
                 <b>U:</b>{" "}
-                {[
-                  ...((snap as PaperSnapshot).Uchunk ?? new Set()).values(),
-                ].join(", ") || "—"}
+                {Array.from((snap as PaperSnapshot).Uchunk ?? []).join(", ") ||
+                  "—"}
               </div>
               <div>
                 <b>Level:</b> {(snap as PaperSnapshot).level}
